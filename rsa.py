@@ -1,5 +1,5 @@
 def eea(r0, r1):
-    assert(r0 > r1)
+    #assert(r0 > r1)
     s0 = 1
     s1 = 0
     t0 = 0
@@ -21,13 +21,16 @@ def eea(r0, r1):
         t1 = t
     return r1, s1, t1
 
-p = 3
-q = 11
+def inverse(x, n):
+    _, _, inverse = eea(x, n)
+    return inverse
+
+p = 7
+q = 13
 n = p * q
 phi = (p - 1) * (q - 1)
 e = 3
-g, s, t = eea(phi, e)
-d = t
+d = inverse(phi, e)
 
 def enc(x):
     return (x ** e) % n
@@ -35,6 +38,21 @@ def enc(x):
 def dec(y):
     return (y ** d) % n
 
+dp = d % (p - 1)
+dq = d % (q - 1)
+cp = inverse(q, p)
+cq = inverse(p, q)
+
+def dec_crt(y):
+    yp = y % p
+    yq = y % q
+    xp = (yp ** dp) % p
+    xq = (yq ** dq) % q
+    x = (((q * cq) * xp) + ((p * cp) * xq)) % n
+    return x
+
 for i in range(1, n):
-    print(i)
     assert(dec(enc(i)))
+
+for i in range(1, n):
+    assert(dec_crt(enc(i)))
