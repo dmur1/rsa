@@ -25,18 +25,20 @@ def inverse(x, n):
     _, _, inverse = eea(x, n)
     return inverse
 
-p = 7
-q = 13
+p = 31
+q = 37
 n = p * q
 phi = (p - 1) * (q - 1)
-e = 3
+e = 17
 d = inverse(phi, e)
 
+print(f"p={p} q={q} n={n} phi={phi} e={e} d={d}")
+
 def enc(x):
-    return (x ** e) % n
+    return pow(x, e, n)
 
 def dec(y):
-    return (y ** d) % n
+    return pow(y, d, n)
 
 dp = d % (p - 1)
 dq = d % (q - 1)
@@ -51,8 +53,7 @@ def dec_crt(y):
     x = (((q * cq) * xp) + ((p * cp) * xq)) % n
     return x
 
-for i in range(1, n):
-    assert(dec(enc(i)))
-
-for i in range(1, n):
-    assert(dec_crt(enc(i)))
+print(enc(2))
+print(enc(4))
+print(enc(2) * enc(4) % n)
+print(enc(2 * 4))
