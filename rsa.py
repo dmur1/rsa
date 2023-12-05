@@ -57,3 +57,23 @@ print(enc(2))
 print(enc(4))
 print(enc(2) * enc(4) % n)
 print(enc(2 * 4))
+
+n = 9797
+phi = (p - 1) * (q - 1)
+e = 131
+d = inverse(phi, e)
+
+def sign(x):
+    return pow(x, d, n)
+
+def verify(x, y):
+    return pow(y, e, n) == x
+
+x = 123
+print(f"{x} => {verify(x, 6292)}")
+
+x = 4333
+print(f"{x} => {verify(x, 4768)}")
+
+x = 4333
+print(f"{x} => {verify(x, 1424)}")
